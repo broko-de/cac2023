@@ -9,7 +9,7 @@ Este es un proyecto de software desarrollado en python 🐍 por medio del framew
 - Panel Admin de Django;
 - Autenticación y autorización;
 - Django RestFramework;
-- Base
+- Base de datos (PostgreSQL)
 
 ### Instalacion
 Hay que tener en cuenta que se necesita un motor de base de datos relacional, puede ser PostgreSQL (recomendado) o Mysql. Para poder correr el proyecto, vas a tener que seguir los siguientes pasos (para sistema operativo Windows):
