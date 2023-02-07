@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import ValidationError
 
-from .models import Curso, Categoria, EstudianteM, Proyecto
+from .models import Curso, Categoria, Estudiante, Proyecto
 
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -65,17 +65,17 @@ class CursoForm(forms.ModelForm):
         widget=forms.FileInput(attrs={'class':'form-control'})
     )
 
-class EstudianteMForm(forms.ModelForm):
+class EstudianteForm(forms.ModelForm):
 
     class Meta:
-        model=EstudianteM
-        fields=['nombre_m','apellido_m','email_m','dni_m','matricula_m']
+        model=Estudiante
+        fields=['nombre','apellido','email','dni','matricula']
         widgets = {
-            'nombre_m': forms.TextInput(attrs={'class':'form-control'}),
-            'apellido_m': forms.TextInput(attrs={'class':'form-control'}),
-            'email_m': forms.EmailInput(attrs={'class':'form-control'}),
-            'dni_m': forms.NumberInput(attrs={'class':'form-control'}),
-            'matricula_m': forms.TextInput(attrs={'class':'form-control'}),
+            'nombre': forms.TextInput(attrs={'class':'form-control'}),
+            'apellido': forms.TextInput(attrs={'class':'form-control'}),
+            'email': forms.EmailInput(attrs={'class':'form-control'}),
+            'dni': forms.NumberInput(attrs={'class':'form-control'}),
+            'matricula': forms.TextInput(attrs={'class':'form-control'}),
         }
 
 

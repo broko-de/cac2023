@@ -6,9 +6,9 @@ from django.shortcuts import render, redirect
 
 from django.template import loader
 
-from administracion.forms import CategoriaForm, CursoForm, CategoriaFormValidado, EstudianteMForm,ProyectoForm,RegistrarUsuarioForm
+from administracion.forms import CategoriaForm, CursoForm, CategoriaFormValidado, EstudianteForm,ProyectoForm,RegistrarUsuarioForm
 
-from administracion.models import Categoria, Curso, EstudianteM, Proyecto
+from administracion.models import Categoria, Curso, Estudiante, Proyecto
 
 from django.contrib import messages
 
@@ -138,13 +138,13 @@ def cursos_eliminar(request,id_curso):
 @login_required(login_url=settings.LOGIN_URL)
 @permission_required('cac.view_estudiantem', login_url=settings.LOGIN_URL)
 def estudiantes_index(request):
-    estudiantes = EstudianteM.objects.all()
+    estudiantes = Estudiante.objects.all()
     return render(request,'administracion/estudiantes/index.html',{'estudiantes':estudiantes})
 
 @login_required(login_url=settings.LOGIN_URL)
 @permission_required('cac.add_estudiantem', login_url=settings.LOGIN_URL)
 def estudiantes_nuevo(request):
-    formulario = EstudianteMForm(request.POST or None)
+    formulario = EstudianteForm(request.POST or None)
     if formulario.is_valid():
         formulario.save()
         messages.success(request,'Se ha creado al estudiante correctamente')          
@@ -155,10 +155,10 @@ def estudiantes_nuevo(request):
 @permission_required('cac.change_estudiantem', login_url=settings.LOGIN_URL)
 def estudiantes_editar(request,id_estudiante):
     try:
-        estudiante = EstudianteM.objects.get(pk=id_estudiante)
-    except EstudianteM.DoesNotExist:
+        estudiante = Estudiante.objects.get(pk=id_estudiante)
+    except Estudiante.DoesNotExist:
         return render(request,'administracion/404_admin.html')
-    formulario = EstudianteMForm(request.POST or None,request.FILES or None,instance=estudiante)
+    formulario = EstudianteForm(request.POST or None,request.FILES or None,instance=estudiante)
     if formulario.is_valid():
         formulario.save()
         messages.success(request,'Se ha editado al estudiante correctamente')          

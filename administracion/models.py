@@ -39,14 +39,14 @@ class Perfil(models.Model):
     foto = models.ImageField(upload_to='perfiles/',null=True,verbose_name='Foto Perfil')
 
 #HERENCIA
-class PersonaM(models.Model):
-    nombre_m = models.CharField(max_length=100,verbose_name='Nombre')
-    apellido_m = models.CharField(max_length=150,verbose_name='Apellido')
-    email_m = models.EmailField(max_length=150,null=True)
-    dni_m = models.IntegerField(verbose_name="DNI")
+class Persona(models.Model):
+    nombre = models.CharField(max_length=100,verbose_name='Nombre')
+    apellido = models.CharField(max_length=150,verbose_name='Apellido')
+    email = models.EmailField(max_length=150,null=True)
+    dni = models.IntegerField(verbose_name="DNI")
 
-class EstudianteM(PersonaM):
-    matricula_m = models.CharField(max_length=10,verbose_name='Matricula')
+class Estudiante(Persona):
+    matricula = models.CharField(max_length=10,verbose_name='Matricula')
     baja = models.BooleanField(default=0)
 
     def __str__(self):
@@ -63,8 +63,8 @@ class EstudianteM(PersonaM):
     class Meta():
         verbose_name_plural = 'Estudiantes'
 
-class DocenteM(PersonaM):
-    legajo_m = models.CharField(max_length=10,verbose_name='Legajo')
+class Docente(Persona):
+    legajo = models.CharField(max_length=10,verbose_name='Legajo')
 
 class Categoria(models.Model):
     nombre = models.CharField(max_length=50,verbose_name='Nombre')
@@ -87,7 +87,7 @@ class Curso(models.Model):
     fecha_inicio = models.DateField(verbose_name='Fecha de inicio',null=True,default=None)
     portada = models.ImageField(upload_to='imagenes/',null=True,verbose_name='Portada')
     categoria = models.ForeignKey(Categoria,on_delete=models.CASCADE) #relacion mucho a uno    
-    estudiantes = models.ManyToManyField(EstudianteM,through='Inscripcion') #related_name="cursos"
+    estudiantes = models.ManyToManyField(Estudiante,through='Inscripcion') #related_name="cursos"
 
     def __str__(self):
         return self.nombre
@@ -96,13 +96,13 @@ class Curso(models.Model):
         self.portada.storage.delete(self.portada.name) #borrado fisico
         super().delete()
 
-class CursoM(models.Model):
+class CursoMTMI(models.Model):
     nombre = models.CharField(max_length=100,verbose_name='Nombre')
     descripcion = models.TextField(null=True,verbose_name='Descripcion')
     fecha_inicio = models.DateField(verbose_name='Fecha de inicio',null=True,default=None)
     portada = models.ImageField(upload_to='imagenes/',null=True,verbose_name='Portada')
     categoria = models.ForeignKey(Categoria,on_delete=models.CASCADE) #relacion mucho a uno    
-    estudiantes = models.ManyToManyField(EstudianteM) #related_name="cursos"
+    estudiantes = models.ManyToManyField(Estudiante) #related_name="cursos"
 
     def __str__(self):
         return self.nombre
@@ -119,7 +119,7 @@ class Inscripcion(models.Model):
         (3,'Egresado'),
     ]
     fecha_creacion = models.DateField(verbose_name='Fecha de creacion')
-    estudiante = models.ForeignKey(EstudianteM, on_delete=models.CASCADE)
+    estudiante = models.ForeignKey(Estudiante, on_delete=models.CASCADE)
     curso = models.ForeignKey(Curso,on_delete=models.CASCADE)
     estado = models.IntegerField(choices=ESTADOS,default=1)
 
@@ -134,7 +134,7 @@ class Proyecto(models.Model):
     descripcion = models.TextField(null=True,verbose_name='Descripcion')
     url = models.URLField(max_length=100,verbose_name='Url')
     portada = models.ImageField(upload_to='imagenes/proyecto/',null=True,verbose_name='Portada')    
-    estudiante = models.ForeignKey(EstudianteM,on_delete=models.CASCADE)
+    estudiante = models.ForeignKey(Estudiante,on_delete=models.CASCADE)
 
     def __str__(self):
         return self.nombre
