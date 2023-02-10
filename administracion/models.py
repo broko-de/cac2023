@@ -87,7 +87,6 @@ class Curso(models.Model):
     fecha_inicio = models.DateField(verbose_name='Fecha de inicio',null=True,default=None)
     portada = models.ImageField(upload_to='imagenes/',null=True,verbose_name='Portada')
     categoria = models.ForeignKey(Categoria,on_delete=models.CASCADE) #relacion mucho a uno    
-    estudiantes = models.ManyToManyField(Estudiante,through='Inscripcion') #related_name="cursos"
 
     def __str__(self):
         return self.nombre
@@ -95,22 +94,32 @@ class Curso(models.Model):
     def delete(self,using=None,keep_parents=False):
         self.portada.storage.delete(self.portada.name) #borrado fisico
         super().delete()
-
-class CursoMTMI(models.Model):
+'''
+    Modelo que que tiene una relacion many to many por medio de un modelo intermedio atraves de Inscripcion
+'''
+class Comision(models.Model):
     nombre = models.CharField(max_length=100,verbose_name='Nombre')
-    descripcion = models.TextField(null=True,verbose_name='Descripcion')
-    fecha_inicio = models.DateField(verbose_name='Fecha de inicio',null=True,default=None)
-    portada = models.ImageField(upload_to='imagenes/',null=True,verbose_name='Portada')
-    categoria = models.ForeignKey(Categoria,on_delete=models.CASCADE) #relacion mucho a uno    
-    estudiantes = models.ManyToManyField(Estudiante) #related_name="cursos"
+    horario = models.TextField(null=True,verbose_name='Horario')
+    curso = models.ForeignKey(Curso,on_delete=models.CASCADE)
+    docente = models.ForeignKey(Docente,on_delete=models.CASCADE)
+    link_meet = models.URLField(max_length=100,verbose_name='Link Meet')
+    estudiantes = models.ManyToManyField(Estudiante,through='Inscripcion') 
+
+'''
+    Modelo que genera una tabla intermedia automática que relaciona Comision con Estudiantes
+'''
+class ComisionMTMI(models.Model):
+    nombre = models.CharField(max_length=100,verbose_name='Nombre')
+    horario = models.TextField(null=True,verbose_name='Horario')
+    curso = models.ForeignKey(Curso,on_delete=models.CASCADE)
+    docente = models.ForeignKey(Docente,on_delete=models.CASCADE)
+    link_meet = models.URLField(max_length=100,verbose_name='Link Meet')
+    link_youtube = models.URLField(max_length=100,verbose_name='Link Youtube')  
+    estudiantes = models.ManyToManyField(Estudiante) #related_name="c"
 
     def __str__(self):
         return self.nombre
-    
-    def delete(self,using=None,keep_parents=False):
-        self.portada.storage.delete(self.portada.name) #borrado fisico
-        super().delete()
-        
+
 class Inscripcion(models.Model):
     
     ESTADOS = [
@@ -119,12 +128,12 @@ class Inscripcion(models.Model):
         (3,'Egresado'),
     ]
     fecha_creacion = models.DateField(verbose_name='Fecha de creacion')
-    estudiante = models.ForeignKey(Estudiante, on_delete=models.CASCADE)
-    curso = models.ForeignKey(Curso,on_delete=models.CASCADE)
+    estudiante = models.ForeignKey(Estudiante,on_delete=models.CASCADE)
+    comision = models.ForeignKey(Comision,on_delete=models.CASCADE)
     estado = models.IntegerField(choices=ESTADOS,default=1)
 
     def __str__(self):
-        return self.estudiante.nombre_m
+        return self.estudiante.nombre
 
 class Proyecto(models.Model):
     nombre = models.CharField(max_length=100,verbose_name='Nombre')
