@@ -62,10 +62,10 @@
                 {% for estudiante in estudiantes %}
                     <tr>
                         <td>{{estudiante.id}}</td>
-                        <td>{{estudiante.nombre_m}}</td>
-                        <td>{{estudiante.apellido_m}}</td>
-                        <td>{{estudiante.dni_m}}</td>
-                        <td>{{estudiante.email_m}}</td>
+                        <td>{{estudiante.nombre}}</td>
+                        <td>{{estudiante.apellido}}</td>
+                        <td>{{estudiante.dni}}</td>
+                        <td>{{estudiante.email}}</td>
 
                         <td>
                             <a href="{% url 'estudiantes_editar' estudiante.id %}" title="Editar" class="btn btn-warning"><i class="fas fa-pencil"></i></a>

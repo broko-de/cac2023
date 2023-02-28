@@ -1,6 +1,7 @@
 .banner{
-    background-image: url('https://www.buenosaires.gob.ar/sites/gcaba/files/codo_a_codo4.jpg');
-    background-size: cover;
+    /* background-image: url('https://www.buenosaires.gob.ar/sites/gcaba/files/codo_a_codo4.jpg');
+    background-size: cover; */
+    background: #1d1c1a;
 }
 
 .h1-banner, .text-banner{
@@ -50,4 +51,32 @@ ul.lista-institucional {
 .error{
     color: red;
     font-size: 12px;
+}
+
+.container-de {
+    background-color: #1d1c1a;
+}
+
+.container-iz {
+    background-color: #1d1c1a;
+    color: white;
+}
+
+.container-de img {
+    width: 70%;
+}
+
+.container-iz p:first-child {
+    font-weight: bold;
+    font-size: 40px;
+}
+
+.container-iz p {
+    width: 60%;
+    font-size: 35px;
+    display: flex;
+    align-items: center;
+    text-align: left;
+    margin-left: 1em;
+    line-height: 1.5em;
 }

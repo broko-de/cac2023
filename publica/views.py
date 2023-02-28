@@ -92,17 +92,22 @@ def ver_cursos(request):
         {
             'nombre':'Fullstack Java',
             'descripcion':'Curso de Fullstack',
-            'categoria':'Programación'
+            'categoria':'Programación',
+            'portada':'https://polotecnologico.net/capacitaciones/wp-content/uploads/sites/2/2021/01/Desarrollo-Full-stack-01-800x800.jpg'
         },
         {
             'nombre':'Diseño UX/IU',
             'descripcion':'🎨',
-            'categoria':'Diseño'
+            'categoria':'Diseño',
+            'portada':'https://polotecnologico.net/capacitaciones/wp-content/uploads/sites/2/2021/01/Desarrollo-Full-stack-01-800x800.jpg'
+
         },
         {
             'nombre':'Big Data',
             'descripcion':'test',
-            'categoria':'Analisis de Datos'
+            'categoria':'Analisis de Datos',
+            'portada':'https://polotecnologico.net/capacitaciones/wp-content/uploads/sites/2/2021/01/Desarrollo-Full-stack-01-800x800.jpg'
+
         },
     ]
     return render(request,'publica/cursos.html',{'cursos':listado_cursos})

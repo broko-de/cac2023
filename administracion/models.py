@@ -50,7 +50,7 @@ class Estudiante(Persona):
     baja = models.BooleanField(default=0)
 
     def __str__(self):
-        return f"{self.matricula_m} - {self.nombre_m} {self.apellido_m}"
+        return f"{self.matricula} - {self.nombre} {self.apellido}"
     
     def soft_delete(self):
         self.baja=True
@@ -108,17 +108,17 @@ class Comision(models.Model):
 '''
     Modelo que genera una tabla intermedia automática que relaciona Comision con Estudiantes
 '''
-class ComisionMTMI(models.Model):
-    nombre = models.CharField(max_length=100,verbose_name='Nombre')
-    horario = models.TextField(null=True,verbose_name='Horario')
-    curso = models.ForeignKey(Curso,on_delete=models.CASCADE)
-    docente = models.ForeignKey(Docente,on_delete=models.CASCADE)
-    link_meet = models.URLField(max_length=100,verbose_name='Link Meet')
-    link_youtube = models.URLField(max_length=100,verbose_name='Link Youtube')  
-    estudiantes = models.ManyToManyField(Estudiante) #related_name="c"
+# class ComisionMTMI(models.Model):
+#     nombre = models.CharField(max_length=100,verbose_name='Nombre')
+#     horario = models.TextField(null=True,verbose_name='Horario')
+#     curso = models.ForeignKey(Curso,on_delete=models.CASCADE)
+#     docente = models.ForeignKey(Docente,on_delete=models.CASCADE)
+#     link_meet = models.URLField(max_length=100,verbose_name='Link Meet')
+#     link_youtube = models.URLField(max_length=100,verbose_name='Link Youtube')  
+#     estudiantes = models.ManyToManyField(Estudiante) #related_name="c"
 
-    def __str__(self):
-        return self.nombre
+#     def __str__(self):
+#         return self.nombre
 
 class Inscripcion(models.Model):
     
