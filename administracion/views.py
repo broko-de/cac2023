@@ -1,6 +1,6 @@
 from datetime import datetime
 from multiprocessing import context
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 
 from django.shortcuts import render, redirect
 
@@ -22,6 +22,11 @@ from  django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 
 from django.contrib.auth.decorators import login_required, permission_required
+
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
+
+from django.shortcuts import get_object_or_404
 
 # Create your views here.
 """
@@ -226,6 +231,50 @@ class CategoriaListView(ListView):
     template_name= 'administracion/categorias/index.html'
     queryset= Categoria.objects.filter(baja=False)
     ordering = ['nombre']
+
+class CategoriaCreateView(CreateView):
+    model = Categoria
+    form_class = CategoriaForm
+    template_name = 'administracion/categorias/nuevo.html'
+    success_url = reverse_lazy('categorias_index')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['formulario'] = context['form']
+        del context['form']
+        return context
+
+class CategoriaUpdateView(UpdateView):
+    model = Categoria
+    form_class = CategoriaForm
+    template_name = 'administracion/categorias/editar.html'
+    success_url = reverse_lazy('categorias_index')
+
+    def get_object(self, queryset=None):
+        pk = self.kwargs.get(self.pk_url_kwarg)
+        obj = get_object_or_404(Categoria, pk=pk)
+        return obj
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['formulario'] = context['form']
+        del context['form']
+        return context
+
+class CategoriaDeleteView(DeleteView):
+    model = Categoria
+    template_name = 'administracion/categorias/eliminar.html'
+    success_url = reverse_lazy('categorias_index')
+    
+    def get_object(self, queryset=None):
+        pk = self.kwargs.get(self.pk_url_kwarg)
+        obj = get_object_or_404(Categoria, pk=pk)
+        return obj
+    
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.soft_delete()  # Llamada al método soft_delete() del modelo
+        return HttpResponseRedirect(self.get_success_url())
 
 class CategoriaView(View):
     form_class = CategoriaForm

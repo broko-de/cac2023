@@ -9,12 +9,15 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     path('administracion/', views.index_administracion,name='inicio_administracion'),
 
-    path('administracion/categorias', views.CategoriaListView.as_view(),name='categorias_index'),
+    path('administracion/categorias/', views.CategoriaListView.as_view(),name='categorias_index'),
     # pathadministracion/('categorias/nuevo', views.categorias_nuevo,name='categorias_nuevo'),
     path('administracion/categorias/nuevo', views.CategoriaView.as_view(),name='categorias_nuevo'),
+    path('administracion/categorias/viewnuevo', views.CategoriaCreateView.as_view(),name='categorias_nuevo_view'),
     path('administracion/categorias/editar/<int:id_categoria>', views.categorias_editar,name='categorias_editar'),
+    path('administracion/categorias/vieweditar/<int:pk>', views.CategoriaUpdateView.as_view(),name='categorias_editar_view'),
     path('administracion/categorias/eliminar/<int:id_categoria>', views.categorias_eliminar,name='categorias_eliminar'),
-    path('administracion/cursos', views.cursos_index,name='cursos_index'),
+    path('administracion/categorias/vieweliminar/<int:pk>', views.CategoriaDeleteView.as_view(),name='categorias_eliminar_view'),
+    path('administracion/cursos/', views.cursos_index,name='cursos_index'),
     path('administracion/cursos/nuevo/', views.cursos_nuevo,name='cursos_nuevo'),
     path('administracion/cursos/editar/<int:id_curso>', views.cursos_editar,name='cursos_editar'),
     path('administracion/cursos/eliminar/<int:id_curso>', views.cursos_eliminar,name='cursos_eliminar'),
